@@ -1,0 +1,33 @@
+Лабораторная работа №3
+Реализованные классические алгоритмы сортировки, поиска и другие структуры данных на языке Haskell.
+Код программы:
+
+module SortingAlgorithms where
+
+-- Реализация сортировки пузырьком
+bubbleSort :: (Ord a) => [a] -> [a]
+bubbleSort [] = []
+bubbleSort [x] = [x]
+bubbleSort xs = bubbleSort' (length xs) xs
+  where
+    bubbleSort' 0 arr = arr
+    bubbleSort' n arr =
+      bubbleSort' (n - 1) (bubble arr)
+      where
+        bubble [x] = [x]
+        bubble (x:y:xs)
+          | x > y = y : bubble (x:xs)
+          | otherwise = x : bubble (y:xs)
+
+-- Реализация быстрой сортировки
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) = quickSort [y | y <- xs, y <= x] ++ [x] ++ quickSort [y | y <- xs, y > x]
+
+Пример использования этих функций для сортировки списка:
+main :: IO ()
+main = do
+  let arr = [64, 34, 25, 12, 22, 11, 90]
+  putStrLn $ "Отсортированный массив (Сортировка пузырьком): " ++ show (bubbleSort arr)
+  let arr2 = [64, 34, 25, 12, 22, 11, 90]
+  putStrLn $ "Отсортированный массив (Быстрая сортировка): " ++ show (quickSort arr2)
